@@ -21,6 +21,8 @@ In addition, this project will include:
 The project will be implemented with the following technologies:
 -`Javascript` for game logic,
 
+![WireframeImage](images/wireframe.png)
+
 ### Wireframes
 
 The app will consist of a single screen with the game board and navigation bar. The navigation bar will contain nav links to the Github repository, my LinkedIn, and the instruction modal. The title will be displayed below the navigation bar and above the game board.
