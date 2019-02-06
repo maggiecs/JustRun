@@ -23,11 +23,11 @@ The project will be implemented with the following technologies:
 -`Javascript` for game logic, webpack to bundle Javascript files, and HTML5 Canvas to draw the graphics.
 
 The following are the main scripts that will be implemented:
-`board.js`: this script will handle the logic for rendering the background/board
-`obstacle.js`: this script will handle the logic for rendering the obstacle
-`points.js `: this script will handle the logic for the player's points
-`player.js `: this script will handle the logic for rendering the player
-`item.js`: this script will handle the logic for rendering extra point items
+-`board.js`: this script will handle the logic for rendering the background/board
+-`obstacle.js`: this script will handle the logic for rendering the obstacle
+-`points.js `: this script will handle the logic for the player's points
+-`player.js `: this script will handle the logic for rendering the player
+-`item.js`: this script will handle the logic for rendering extra point items
 
 ### Wireframes
 
