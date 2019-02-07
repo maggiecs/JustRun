@@ -11,6 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const game = new Game(ctx);
   game.displayFloor();
-  // game.displayFloorTop();
-  new GameView(game, ctx).start();
+  game.start();
+ 
+  // new GameView(game, ctx).start();
 });
