@@ -9,8 +9,18 @@ document.addEventListener("DOMContentLoaded", () => {
   canvas.height = Game.DIM_Y;
 
   const ctx = canvas.getContext("2d");
-  let kirby = new Kirby();
-  ctx.drawImage(kirby.kirbyImage, 45, 0, 45, 45, 200, 380, 45, 45);
+
+  // let kirby = new Kirby();
+  // debugger
+  // kirby.kirbyImage.onload = function () {
+
+  //   // At this point, the image is fully loaded
+  //   // So do your thing!
+
+  
+  // ctx.drawImage(kirby.kirbyImage, 10, 10, 50, 50, 400, 400, 50, 50);
+
+  // };
 
   const game = new Game(ctx);
   game.displayFloor();

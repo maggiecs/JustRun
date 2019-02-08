@@ -3,10 +3,13 @@ const Enemy = require('./enemy');
 
 class Game {
   constructor(ctx) {
+    this.document = document;
     this.ctx = ctx;
     this.kirby = new Kirby();
     this.enemy = new Enemy();
     this.points = 0;
+    this.enemyDimX = Game.DIM_X;
+    this.enemyXStep = 4;
   }
 
   draw(ctx) {
@@ -20,11 +23,11 @@ class Game {
   }
 
   start() {
-    this.kirby.walk(this.ctx);
-    // this.enemy.walk(this.ctx);
-    debugger
-    this.ctx.clearRect(200, 200, 45, 45);
-    this.ctx.drawImage(this.kirby.kirbyImage, 0, 0, 45, 45, 200, 200, 45, 45);
+    this.addKirby();
+    this.addEnemies();
+    this.keyListener();
+
+  
   }
 
   displayFloor() {
@@ -37,23 +40,32 @@ class Game {
 
 
   addKirby() {
-    
+    this.kirby.walk(this.ctx);
    
   }
 
 
   addEnemies() {
-    // let requestAnimationFrame = window.requestAnimationFrame;
-    // let x = Game.DIM_X;
-    // this.ctx.clearRect(0, 220, 70, 100);
-    setInterval(() => {
-      this.ctx.drawImage(this.enemy.enemies[0], 400, 220, 60, 100);
-    }, 10000);
+    let requestAnimationFrame = window.requestAnimationFrame;
+    this.ctx.clearRect(this.enemyDimX - 118, 307, 118 + this.enemyXStep, 118);
+    this.ctx.drawImage(this.enemy.enemyOne, 0, 0, 118, 118, this.enemyDimX - 118, 307, 118, 118);
+    this.enemyDimX -= this.enemyXStep;
+   
+    if (this.enemyDimX < 0) {
+      this.enemyDimX = Game.DIM_X;
+    }
 
-    // this.ctx.drawImage(this.enemy.enemies[0], 45, 0, 45, 45, 200, 380, 45, 45);
-    // debugger
-    // x -= 5;
-    // if (x < 20) requestAnimationFrame(this.addEnemies);
+    requestAnimationFrame(this.addEnemies.bind(this));
+  
+  }
+
+  keyListener() {
+    this.document.addEventListener("keypress", (e) => {
+      e.preventDefault();
+      if (e.keyCode === 32) {
+        this.kirby.jump(this.ctx);
+      }
+    });
   }
 }
 
