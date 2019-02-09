@@ -2,6 +2,7 @@ const Kirby = require('./kirby');
 const Penguin = require('./penguin');
 const Waluigi = require('./waluigi');
 const Score = require('./score');
+const Coin = require('./coin');
 
 class Game {
   constructor(ctx) {
@@ -9,6 +10,7 @@ class Game {
     this.ctx = ctx;
     this.kirby = new Kirby();
     this.score = new Score();
+    this.coin = new Coin();
     this.points = 0;
     this.chosenEnemy = null;
     this.enemyDimX = Game.DIM_X;
@@ -26,6 +28,7 @@ class Game {
     this.addKirby();
     this.chooseEnemy();
     this.addEnemies();
+    this.coin.addCoin(this.ctx);
   }
 
   displayFloor() {
@@ -39,7 +42,7 @@ class Game {
 
   addKirby() {
     this.kirby.walk(this.ctx);
-   
+    this.score.drawScore(this.ctx, this.points);
   }
 
   chooseEnemy() {
@@ -47,6 +50,12 @@ class Game {
       this.chosenEnemy = new Penguin();
     } else {
       this.chosenEnemy = new Waluigi();
+    }
+  }
+
+  addCoin(ctx) {
+    if (Math.random() < 0.5 && ) {
+      this.coin.generateCoin(ctx);
     }
   }
 
@@ -66,7 +75,7 @@ class Game {
 
     this.ctx.clearRect(this.enemyDimX, this.enemyDimY, this.chosenEnemy.width + this.enemyXStep, this.chosenEnemy.height);
     this.kirby.getKirbyaction(this.ctx);
-    this.ctx.drawImage(this.chosenEnemy.image, 0, 0, this.chosenEnemy.width, this.chosenEnemy.height, this.enemyDimX, this.enemyDimY, this.chosenEnemy.width, this.chosenEnemy.height);;
+    this.ctx.drawImage(this.chosenEnemy.image, 0, 0, this.chosenEnemy.width, this.chosenEnemy.height, this.enemyDimX, this.enemyDimY, this.chosenEnemy.width, this.chosenEnemy.height);
     this.enemyDimX -= this.enemyXStep;
    
     if (this.enemyDimX < -200) {
@@ -90,10 +99,10 @@ class Game {
 
   gameOver() {
     return !(
-      this.kirby.xPos > this.enemyDimX + this.chosenEnemy.width ||
-      this.kirby.xPos + this.kirby.width < this.enemyDimX ||
-      this.kirby.yPos > this.enemyDimY + this.chosenEnemy.height ||
-      this.kirby.yPos + this.kirby.height < this.enemyDimY
+      this.kirby.xPos > this.enemyDimX + this.chosenEnemy.width - Game.ENEMY_OFFSET.xOffset ||
+      this.kirby.xPos + this.kirby.width < this.enemyDimX + Game.ENEMY_OFFSET.xOffset ||
+      this.kirby.yPos > this.enemyDimY + this.chosenEnemy.height - Game.ENEMY_OFFSET.yOffset ||
+      this.kirby.yPos + this.kirby.height < this.enemyDimY + Game.ENEMY_OFFSET.yOffset
     );
   }
 
@@ -101,6 +110,9 @@ class Game {
 
 Game.DIM_X = 800;
 Game.DIM_Y = 500;
-Game.BACKGROUND_COLOR = "#000000";
+Game.ENEMY_OFFSET = {
+  xOffset: 10,
+  yOffset: 5,
+};
 
 module.exports = Game;

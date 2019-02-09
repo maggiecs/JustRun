@@ -3,11 +3,11 @@ class Score {
   }
 
   drawScore(ctx, points) {
-    
-    ctx.font = "100px Georgia";
-    ctx.clearRect(200, 100, 800, 500);
-    ctx.fillStyle = "black";
-    ctx.fillText(`Score: ${points}`, 200, 200);
+    ctx.clearRect(650, 50, 100, 100);
+    ctx.textBaseline = "top"; 
+    ctx.font = '30px "Dosis"';
+    ctx.fillStyle = "#ffc0cb";
+    ctx.fillText(`Score: ${points}`, 650, 50);
   }
 }
 

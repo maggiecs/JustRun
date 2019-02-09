@@ -11,7 +11,6 @@ a {
 .footer-links {
   display: flex;
   justify-content: space-around;
- 
 }
 
 .footer-links > li {
@@ -20,5 +19,6 @@ a {
   padding: 10px;
   color: #000000;
   text-decoration: none;
+  font-family: 'Dosis';
 }
 
