@@ -12,6 +12,7 @@ class Game {
     this.chosenEnemy = null;
     this.enemyDimX = Game.DIM_X;
     this.enemyXStep = null;
+    this.keyListeners();
   }
 
   draw(ctx) {
@@ -20,15 +21,10 @@ class Game {
     ctx.fillRect(0, 0, Game.DIM_X, Game.DIM_Y);
   }
 
-  isOutOfBounds(pos) {
-
-  }
-
   start() {
     this.addKirby();
     this.chooseEnemy();
     this.addEnemies();
-    this.keyListener();
 
   
   }
@@ -70,6 +66,7 @@ class Game {
     this.enemyXStep = this.chosenEnemy.speed;
 
     this.ctx.clearRect(this.enemyDimX, this.enemyDimY, this.chosenEnemy.width + this.enemyXStep, this.chosenEnemy.height);
+    this.kirby.getKirbyaction(this.ctx);
     this.ctx.drawImage(this.chosenEnemy.image, 0, 0, this.chosenEnemy.width, this.chosenEnemy.height, this.enemyDimX, this.enemyDimY, this.chosenEnemy.width, this.chosenEnemy.height);;
     this.enemyDimX -= this.enemyXStep;
    
@@ -81,7 +78,7 @@ class Game {
     }
   }
 
-  keyListener() {
+  keyListeners() {
     this.document.addEventListener("keypress", (e) => {
       e.preventDefault();
       if (e.keyCode === 32) {
