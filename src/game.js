@@ -1,15 +1,17 @@
 const Kirby = require('./kirby');
-const Enemy = require('./enemy');
+const Penguin = require('./penguin');
+const Waluigi = require('./waluigi');
 
 class Game {
   constructor(ctx) {
     this.document = document;
     this.ctx = ctx;
     this.kirby = new Kirby();
-    this.enemy = new Enemy();
+    // this.enemy = new Enemy();
     this.points = 0;
+    this.chosenEnemy = null;
     this.enemyDimX = Game.DIM_X;
-    this.enemyXStep = 4;
+    this.enemyXStep = null;
   }
 
   draw(ctx) {
@@ -24,6 +26,7 @@ class Game {
 
   start() {
     this.addKirby();
+    this.chooseEnemy();
     this.addEnemies();
     this.keyListener();
 
@@ -44,18 +47,35 @@ class Game {
    
   }
 
+  chooseEnemy() {
+    if (Math.random() < 0.5) {
+      this.chosenEnemy = new Penguin();
+    } else {
+      this.chosenEnemy = new Waluigi();
+    }
+  }
 
   addEnemies() {
     let requestAnimationFrame = window.requestAnimationFrame;
-    this.ctx.clearRect(this.enemyDimX - 118, 307, 118 + this.enemyXStep, 118);
-    this.ctx.drawImage(this.enemy.enemyOne, 0, 0, 118, 118, this.enemyDimX - 118, 307, 118, 118);
+    let cancelAnimationFrame = window.cancelAnimationFrame;
+    enemyRequestId = requestAnimationFrame(this.addEnemies.bind(this));
+
+    const enemyDimY = 425 - this.chosenEnemy.height;
+    this.enemyDimY = enemyDimY;
+    this.enemyXStep = this.chosenEnemy.speed;
+
+    this.ctx.clearRect(this.enemyDimX, this.enemyDimY, this.chosenEnemy.width + this.enemyXStep, this.chosenEnemy.height);
+    this.ctx.drawImage(this.chosenEnemy.image, 0, 0, this.chosenEnemy.width, this.chosenEnemy.height, this.enemyDimX, this.enemyDimY, this.chosenEnemy.width, this.chosenEnemy.height);;
     this.enemyDimX -= this.enemyXStep;
    
-    if (this.enemyDimX < 0) {
+    if (this.enemyDimX < -200) {
       this.enemyDimX = Game.DIM_X;
+      cancelAnimationFrame(enemyRequestId);
+      this.chooseEnemy();
+      this.addEnemies();
     }
 
-    requestAnimationFrame(this.addEnemies.bind(this));
+    
   
   }
 
