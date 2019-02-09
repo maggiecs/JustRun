@@ -20,6 +20,8 @@ class Kirby {
     this.jumping = false;
     this.yVelocity = 0;
     this.walkRequestId = null;
+
+    this.dead = false;
   }
  
 
@@ -27,7 +29,13 @@ class Kirby {
     const requestAnimationFrame = window.requestAnimationFrame;
     const cancelAnimationFrame = window.cancelAnimationFrame;
 
+    let jumpRequestId = requestAnimationFrame(this.jump.bind(this, ctx));
+    if (this.dead) {
+      cancelAnimationFrame(jumpRequestId);
+    }
+
     cancelAnimationFrame(this.walkRequestId);
+    
 
     ctx.clearRect(this.xPos, this.yPos, this.width, this.height);
 
@@ -49,7 +57,6 @@ class Kirby {
     }
   
     ctx.drawImage(this.kirbyOne, this.xPos, this.yPos, this.width, this.height);
-    let jumpRequestId = requestAnimationFrame(this.jump.bind(this, ctx));
 
     if (this.jumping === false) {
       cancelAnimationFrame(jumpRequestId);
@@ -60,13 +67,22 @@ class Kirby {
     const requestAnimationFrame = window.requestAnimationFrame;
     const cancelAnimationFrame = window.cancelAnimationFrame;
 
+    let walkRequestId = requestAnimationFrame(this.walk.bind(this, ctx));
+    if (this.dead) {
+      cancelAnimationFrame(walkRequestId);
+    }
+
     let i = Math.floor(this.frame_index) % this.kirbySpriteNum;
     ctx.clearRect(this.xPos, this.yPos, this.width, this.height);
     ctx.drawImage(this.kirbyImage, (this.xCorner * i), this.yCorner, this.width, this.height, this.xPos, this.yPos, this.width, this.height);
     this.frame_index += this.frame_rate;
 
-    this.walkRequestId = requestAnimationFrame(this.walk.bind(this,ctx));
+    
 
+  }
+
+  die() {
+    this.dead = true;
   }
 
   displayFloor(ctx) {

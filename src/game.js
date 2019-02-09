@@ -60,6 +60,11 @@ class Game {
     let cancelAnimationFrame = window.cancelAnimationFrame;
     enemyRequestId = requestAnimationFrame(this.addEnemies.bind(this));
 
+    if (this.gameOver()){
+      cancelAnimationFrame(enemyRequestId);
+      this.kirby.die();
+    }
+
     const enemyDimY = 425 - this.chosenEnemy.height;
     this.enemyDimY = enemyDimY;
     this.enemyXStep = this.chosenEnemy.speed;
@@ -74,9 +79,6 @@ class Game {
       this.chooseEnemy();
       this.addEnemies();
     }
-
-    
-  
   }
 
   keyListener() {
@@ -87,6 +89,16 @@ class Game {
       }
     });
   }
+
+  gameOver() {
+    return !(
+      this.kirby.xPos > this.enemyDimX + this.chosenEnemy.width ||
+      this.kirby.xPos + this.kirby.width < this.enemyDimX ||
+      this.kirby.yPos > this.enemyDimY + this.chosenEnemy.height ||
+      this.kirby.yPos + this.kirby.height < this.enemyDimY
+    );
+  }
+
 }
 
 Game.DIM_X = 800;
