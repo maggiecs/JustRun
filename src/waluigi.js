@@ -7,9 +7,6 @@ class Waluigi {
     this.speed = Math.random() * 4 + 4;
   }
 
-
-
-
 }
 
 module.exports = Waluigi;

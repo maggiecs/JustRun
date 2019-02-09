@@ -7,9 +7,6 @@ class Penguin {
     this.speed = Math.random() * 4 + 3;
   }
 
-
-
-
 }
 
 module.exports = Penguin;

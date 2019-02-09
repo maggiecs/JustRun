@@ -19,7 +19,9 @@ class Kirby {
     this.kirbyOne.src = "images/kirby-1.png";
     this.jumping = false;
     this.yVelocity = 0;
-    this.walkRequestId = null;
+
+    // this.walkRequestId = null;
+
 
     this.dead = false;
   }
@@ -37,13 +39,11 @@ class Kirby {
 
     // cancelAnimationFrame(this.walkRequestId);
     
-
     ctx.clearRect(this.xPos, this.yPos, this.width, this.height);
 
-    if (this.jumping === false    ) {
+    if (this.jumping === false) {
       this.yVelocity -= 25;
       this.jumping = true;
-      console.log(this.yPos);
     }
 
     this.yVelocity += 0.8;

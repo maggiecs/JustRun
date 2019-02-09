@@ -1,13 +1,14 @@
 const Kirby = require('./kirby');
 const Penguin = require('./penguin');
 const Waluigi = require('./waluigi');
+const Score = require('./score');
 
 class Game {
   constructor(ctx) {
     this.document = document;
     this.ctx = ctx;
     this.kirby = new Kirby();
-    // this.enemy = new Enemy();
+    this.score = new Score();
     this.points = 0;
     this.chosenEnemy = null;
     this.enemyDimX = Game.DIM_X;
@@ -25,12 +26,10 @@ class Game {
     this.addKirby();
     this.chooseEnemy();
     this.addEnemies();
-
-  
   }
 
   displayFloor() {
-    this.ctx.fillStyle = "#BA55D3";
+    this.ctx.fillStyle = "#800080";
     this.ctx.fillRect(0, 430, Game.DIM_X, 70);
 
     this.ctx.fillStyle = "#000000";
@@ -71,6 +70,8 @@ class Game {
     this.enemyDimX -= this.enemyXStep;
    
     if (this.enemyDimX < -200) {
+      this.points += 10;
+      this.score.drawScore(this.ctx, this.points);
       this.enemyDimX = Game.DIM_X;
       cancelAnimationFrame(enemyRequestId);
       this.chooseEnemy();
