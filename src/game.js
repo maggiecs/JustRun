@@ -19,28 +19,17 @@ class Game {
   }
 
   start() {
-    this.addKirby();
-    this.addScore();
+    this.score.drawScore(this.ctx, this.points);
     this.chooseEnemy();
-    this.addEnemies();
-    this.addCoin();
+    this.play();
   }
 
   displayFloor() {
-    this.ctx.fillStyle = "#800080";
+    this.ctx.fillStyle = "#472853";
     this.ctx.fillRect(0, 430, Game.DIM_X, 70);
 
-    this.ctx.fillStyle = "#000000";
+    this.ctx.fillStyle = "#1d0b25";
     this.ctx.fillRect(0, 425, Game.DIM_X, 5);
-  }
-
-
-  addKirby() {
-    this.kirby.walk(this.ctx); 
-  }
-
-  addScore() {
-    this.score.drawScore(this.ctx, this.points);
   }
 
   chooseEnemy() {
@@ -52,16 +41,12 @@ class Game {
   }
 
   play() {
-    
-  }
-
-  addEnemies() {
     let requestAnimationFrame = window.requestAnimationFrame;
     let cancelAnimationFrame = window.cancelAnimationFrame;
-    enemyRequestId = requestAnimationFrame(this.addEnemies.bind(this));
-
-    if (this.gameOver()){
-      cancelAnimationFrame(enemyRequestId);
+    playRequestId = requestAnimationFrame(this.play.bind(this));
+  
+    if (this.gameOver()) {
+      cancelAnimationFrame(playRequestId);
       this.kirby.die();
       this.coin.stopCoin();
     }
@@ -72,30 +57,35 @@ class Game {
       this.score.drawScore(this.ctx, this.points);
     }
 
+    if (this.enemyDimX < -200) {
+      this.points += 10;
+      this.score.drawScore(this.ctx, this.points);
+      this.enemyDimX = Game.DIM_X;
+      cancelAnimationFrame(playRequestId);
+      this.chooseEnemy();
+      this.play();
+    }
+
+    this.addEnemies();
+    this.addCoin();
+  }
+
+  addKirby() {
+    this.kirby.getKirbyaction(this.ctx);
+  }
+
+  addEnemies() {
     const enemyDimY = 425 - this.chosenEnemy.height;
     this.enemyDimY = enemyDimY;
     this.enemyXStep = this.chosenEnemy.speed;
 
     this.ctx.clearRect(this.enemyDimX, this.enemyDimY, this.chosenEnemy.width + this.enemyXStep, this.chosenEnemy.height);
-    this.kirby.getKirbyaction(this.ctx);
+    this.addKirby();
     this.ctx.drawImage(this.chosenEnemy.image, 0, 0, this.chosenEnemy.width, this.chosenEnemy.height, this.enemyDimX, this.enemyDimY, this.chosenEnemy.width, this.chosenEnemy.height);
     this.enemyDimX -= this.enemyXStep;
-   
-    if (this.enemyDimX < -200) {
-      this.points += 10;
-      this.score.drawScore(this.ctx, this.points);
-      this.enemyDimX = Game.DIM_X;
-      cancelAnimationFrame(enemyRequestId);
-      this.chooseEnemy();
-      this.addEnemies();
-    }
   }
 
   addCoin() {
-    let requestAnimationFrame = window.requestAnimationFrame;
-    // let cancelAnimationFrame = window.cancelAnimationFrame;
-    addCoinRequestId = requestAnimationFrame(this.addCoin.bind(this));
-
     if (Math.random() < 0.1 && this.coin.onCanvas === false) {
       this.coin.generateCoin(this.ctx);
     }
