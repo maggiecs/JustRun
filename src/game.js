@@ -51,6 +51,10 @@ class Game {
     }
   }
 
+  play() {
+    
+  }
+
   addEnemies() {
     let requestAnimationFrame = window.requestAnimationFrame;
     let cancelAnimationFrame = window.cancelAnimationFrame;
@@ -60,6 +64,12 @@ class Game {
       cancelAnimationFrame(enemyRequestId);
       this.kirby.die();
       this.coin.stopCoin();
+    }
+
+    if (this.coinCollision()) {
+      this.points += 5;
+      this.coin.hasCollide = true;
+      this.score.drawScore(this.ctx, this.points);
     }
 
     const enemyDimY = 425 - this.chosenEnemy.height;
@@ -106,6 +116,15 @@ class Game {
       this.kirby.xPos + this.kirby.width < this.enemyDimX + Game.ENEMY_OFFSET.xOffset ||
       this.kirby.yPos > this.enemyDimY + this.chosenEnemy.height - Game.ENEMY_OFFSET.yOffset ||
       this.kirby.yPos + this.kirby.height < this.enemyDimY + Game.ENEMY_OFFSET.yOffset
+    );
+  }
+
+  coinCollision() {
+    return !(
+      this.kirby.xPos > this.coin.xPos + this.coin.width ||
+      this.kirby.xPos + this.kirby.width < this.coin.xPos ||
+      this.kirby.yPos > this.coin.yPos + this.coin.height ||
+      this.kirby.yPos + this.kirby.height < this.coin.yPos
     );
   }
 

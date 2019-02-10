@@ -14,6 +14,7 @@ class Coin {
     this.speed = 2;
     this.onCanvas = false;
     this.stop = false;
+    this.hasCollide = false;
   }
 
 
@@ -29,6 +30,14 @@ class Coin {
       this.xPos = 800;
     } else {
       this.onCanvas = true;
+    }
+
+    if (this.hasCollide === true) {
+      ctx.clearRect(this.xPos, this.yPos, this.width + this.speed, this.height);
+      this.onCanvas = false;
+      cancelAnimationFrame(coinRequestId);
+      this.xPos = 800;
+      this.hasCollide = false;
     }
     
     let i = Math.floor(this.frame_index) % this.coinSpriteNum;
