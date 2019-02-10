@@ -18,17 +18,12 @@ class Game {
     this.keyListeners();
   }
 
-  draw(ctx) {
-    ctx.clearRect(0, 0, Game.DIM_X. Game.DIM_Y);
-    ctx.fillStyle = Game.BACKGROUND_COLOR;
-    ctx.fillRect(0, 0, Game.DIM_X, Game.DIM_Y);
-  }
-
   start() {
     this.addKirby();
+    this.addScore();
     this.chooseEnemy();
     this.addEnemies();
-    this.coin.addCoin(this.ctx);
+    this.addCoin();
   }
 
   displayFloor() {
@@ -41,7 +36,10 @@ class Game {
 
 
   addKirby() {
-    this.kirby.walk(this.ctx);
+    this.kirby.walk(this.ctx); 
+  }
+
+  addScore() {
     this.score.drawScore(this.ctx, this.points);
   }
 
@@ -53,12 +51,6 @@ class Game {
     }
   }
 
-  addCoin(ctx) {
-    if (Math.random() < 0.5 && ) {
-      this.coin.generateCoin(ctx);
-    }
-  }
-
   addEnemies() {
     let requestAnimationFrame = window.requestAnimationFrame;
     let cancelAnimationFrame = window.cancelAnimationFrame;
@@ -67,6 +59,7 @@ class Game {
     if (this.gameOver()){
       cancelAnimationFrame(enemyRequestId);
       this.kirby.die();
+      this.coin.stopCoin();
     }
 
     const enemyDimY = 425 - this.chosenEnemy.height;
@@ -85,6 +78,16 @@ class Game {
       cancelAnimationFrame(enemyRequestId);
       this.chooseEnemy();
       this.addEnemies();
+    }
+  }
+
+  addCoin() {
+    let requestAnimationFrame = window.requestAnimationFrame;
+    // let cancelAnimationFrame = window.cancelAnimationFrame;
+    addCoinRequestId = requestAnimationFrame(this.addCoin.bind(this));
+
+    if (Math.random() < 0.1 && this.coin.onCanvas === false) {
+      this.coin.generateCoin(this.ctx);
     }
   }
 

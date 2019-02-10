@@ -12,24 +12,34 @@ class Coin {
     this.frame_rate = 0.1;
     this.coinSpriteNum = 8;
     this.speed = 2;
+    this.onCanvas = false;
+    this.stop = false;
   }
 
 
-  addCoin(ctx) {
+  generateCoin(ctx) {
     const requestAnimationFrame = window.requestAnimationFrame;
     const cancelAnimationFrame = window.cancelAnimationFrame;
     
-    coinRequestId = requestAnimationFrame(this.addCoin.bind(this, ctx));
+    coinRequestId = requestAnimationFrame(this.generateCoin.bind(this, ctx));
 
-    if (this.xPos < -60) {
+    if (this.xPos < -68 || this.stop === true) {
+      this.onCanvas = false;
       cancelAnimationFrame(coinRequestId);
+      this.xPos = 800;
+    } else {
+      this.onCanvas = true;
     }
-
+    
     let i = Math.floor(this.frame_index) % this.coinSpriteNum;
     ctx.clearRect(this.xPos, this.yPos, this.width + this.speed, this.height);
     ctx.drawImage(this.coinImage, (this.xCorner * i), this.yCorner, this.width, this.height, this.xPos, this.yPos, this.width, this.height);
     this.xPos -= this.speed;
     this.frame_index += this.frame_rate;
+  }
+
+  stopCoin() {
+    this.stop = true; 
   }
 
 }
