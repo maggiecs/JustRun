@@ -17,6 +17,11 @@ const gameStart = (ctx) => {
   ctx.fillStyle = "#ff9191"; 
   ctx.fillText('Press ENTER to start!', 300, 300);
   ctx.fillText('Press SPACE to jump!', 300, 330);
+
+  ctx.font = "25px Dosis";
+  ctx.textBaseline = "top";
+  ctx.fillStyle = "#ff9191";
+  ctx.fillText("Press 's' to turn on/off music!", 270, 360);
   
 };
 

@@ -203,7 +203,11 @@ function () {
     this.chosenEnemy = null;
     this.enemyDimX = Game.DIM_X;
     this.enemyXStep = null;
+    this.gamePlaying = false;
+    this.muteMusic = false;
+    this.addMusic();
     this.keyListeners();
+    this.musicListener();
   }
 
   _createClass(Game, [{
@@ -237,10 +241,16 @@ function () {
       var cancelAnimationFrame = window.cancelAnimationFrame;
       playRequestId = requestAnimationFrame(this.play.bind(this));
 
+      if (this.gamePlaying === true && this.muteMusic === false) {
+        this.backgroundMusic.play();
+      }
+
       if (this.gameOver()) {
         cancelAnimationFrame(playRequestId);
         this.kirby.die();
         this.coin.stopCoin();
+        this.backgroundMusic.pause();
+        this.gamePlaying = false;
       }
 
       if (this.coinCollision()) {
@@ -285,6 +295,11 @@ function () {
       }
     }
   }, {
+    key: "addMusic",
+    value: function addMusic() {
+      this.backgroundMusic = new Audio("audio/background_music.mp3");
+    }
+  }, {
     key: "keyListeners",
     value: function keyListeners() {
       var _this = this;
@@ -294,6 +309,25 @@ function () {
 
         if (e.keyCode === 32) {
           _this.kirby.jump(_this.ctx);
+        }
+      });
+    }
+  }, {
+    key: "musicListener",
+    value: function musicListener() {
+      var _this2 = this;
+
+      this.document.addEventListener("keypress", function (e) {
+        e.preventDefault();
+
+        if (e.keyCode === 115 && _this2.muteMusic === false) {
+          _this2.backgroundMusic.pause();
+
+          _this2.muteMusic = true;
+        } else if (e.keyCode === 115 && _this2.muteMusic === true) {
+          _this2.backgroundMusic.play();
+
+          _this2.muteMusic = false;
         }
       });
     }
@@ -348,6 +382,10 @@ var gameStart = function gameStart(ctx) {
   ctx.fillStyle = "#ff9191";
   ctx.fillText('Press ENTER to start!', 300, 300);
   ctx.fillText('Press SPACE to jump!', 300, 330);
+  ctx.font = "25px Dosis";
+  ctx.textBaseline = "top";
+  ctx.fillStyle = "#ff9191";
+  ctx.fillText("Press 's' to turn on/off music!", 270, 360);
 };
 
 module.exports = gameStart;
@@ -477,14 +515,17 @@ document.addEventListener("DOMContentLoaded", function () {
   var canvas = document.getElementById("canvas");
   canvas.width = Game.DIM_X;
   canvas.height = Game.DIM_Y;
-  var ctx = canvas.getContext("2d");
-  gameStart(ctx);
+  var ctx = canvas.getContext("2d"); //Start page
+
+  gameStart(ctx); //Listener to start game
+
   document.addEventListener("keypress", function (e) {
     e.preventDefault();
 
     if (e.keyCode === 13) {
       var game = new Game(ctx);
       ctx.clearRect(0, 0, 800, 500);
+      game.gamePlaying = true;
       game.displayFloor();
       game.start(); // } else if (e.keyCode === 13) {
     }
