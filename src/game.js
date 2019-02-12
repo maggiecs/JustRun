@@ -5,7 +5,7 @@ const Score = require('./score');
 const Coin = require('./coin');
 
 class Game {
-  constructor(ctx) {
+  constructor(ctx, playing) {
     this.document = document;
     this.ctx = ctx;
     this.kirby = new Kirby();
@@ -15,8 +15,13 @@ class Game {
     this.chosenEnemy = null;
     this.enemyDimX = Game.DIM_X;
     this.enemyXStep = null;
-    this.gamePlaying = false;
+    this.gamePlaying = playing;
     this.muteMusic = false;
+
+    this.koKirbyImage = new Image();
+    this.koKirbyImage.src = "images/ko_kirby.png";
+    this.gameOverImage = new Image();
+    this.gameOverImage.src = "images/game_over.png";
 
     this.addMusic();
     this.keyListeners();
@@ -49,16 +54,9 @@ class Game {
     let requestAnimationFrame = window.requestAnimationFrame;
     let cancelAnimationFrame = window.cancelAnimationFrame;
     playRequestId = requestAnimationFrame(this.play.bind(this));
-  
+    
     if (this.gamePlaying === true && this.muteMusic === false) {
       this.backgroundMusic.play();
-    }
-    if (this.gameOver()) {
-      cancelAnimationFrame(playRequestId);
-      this.kirby.die();
-      this.coin.stopCoin();
-      this.backgroundMusic.pause();
-      this.gamePlaying = false;
     }
 
     if (this.coinCollision()) {
@@ -78,6 +76,15 @@ class Game {
 
     this.addEnemies();
     this.addCoin();
+
+    if (this.gameOver(this.points)) {
+      cancelAnimationFrame(playRequestId);
+      this.kirby.die();
+      this.coin.stopCoin();
+      this.backgroundMusic.pause();
+      this.gamePlaying = false;
+      this.displayGameOver();
+    }
   }
 
   addKirby() {
@@ -144,6 +151,27 @@ class Game {
       this.kirby.yPos > this.coin.yPos + this.coin.height ||
       this.kirby.yPos + this.kirby.height < this.coin.yPos
     );
+  }
+
+
+  displayGameOver() {
+    this.ctx.clearRect(0, 0, 800, 500);
+    this.ctx.fillStyle = "#6b3e6f";
+    this.ctx.fillRect(0, 0, 800, 500);
+
+    this.ctx.font = "25px Dosis";
+    this.ctx.textBaseline = "top";
+    this.ctx.fillStyle = "#ff9191";
+    this.ctx.drawImage(this.gameOverImage, 212, 120);
+
+    this.ctx.drawImage(this.koKirbyImage, 377.5, 220);
+
+    this.ctx.font = "40px Dosis";
+    this.ctx.textBaseline = "top";
+    this.ctx.fillStyle = "#ff9191";
+    this.ctx.fillText(`Score: ${this.points}`, 325, 280);
+
+    setTimeout(function () { location.reload(); }, 3000);
   }
 
 }

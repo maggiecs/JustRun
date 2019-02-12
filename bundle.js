@@ -191,7 +191,7 @@ var Coin = __webpack_require__(/*! ./coin */ "./src/coin.js");
 var Game =
 /*#__PURE__*/
 function () {
-  function Game(ctx) {
+  function Game(ctx, playing) {
     _classCallCheck(this, Game);
 
     this.document = document;
@@ -203,8 +203,12 @@ function () {
     this.chosenEnemy = null;
     this.enemyDimX = Game.DIM_X;
     this.enemyXStep = null;
-    this.gamePlaying = false;
+    this.gamePlaying = playing;
     this.muteMusic = false;
+    this.koKirbyImage = new Image();
+    this.koKirbyImage.src = "images/ko_kirby.png";
+    this.gameOverImage = new Image();
+    this.gameOverImage.src = "images/game_over.png";
     this.addMusic();
     this.keyListeners();
     this.musicListener();
@@ -245,14 +249,6 @@ function () {
         this.backgroundMusic.play();
       }
 
-      if (this.gameOver()) {
-        cancelAnimationFrame(playRequestId);
-        this.kirby.die();
-        this.coin.stopCoin();
-        this.backgroundMusic.pause();
-        this.gamePlaying = false;
-      }
-
       if (this.coinCollision()) {
         this.points += 5;
         this.coin.hasCollide = true;
@@ -270,6 +266,15 @@ function () {
 
       this.addEnemies();
       this.addCoin();
+
+      if (this.gameOver(this.points)) {
+        cancelAnimationFrame(playRequestId);
+        this.kirby.die();
+        this.coin.stopCoin();
+        this.backgroundMusic.pause();
+        this.gamePlaying = false;
+        this.displayGameOver();
+      }
     }
   }, {
     key: "addKirby",
@@ -341,6 +346,25 @@ function () {
     value: function coinCollision() {
       return !(this.kirby.xPos > this.coin.xPos + this.coin.width || this.kirby.xPos + this.kirby.width < this.coin.xPos || this.kirby.yPos > this.coin.yPos + this.coin.height || this.kirby.yPos + this.kirby.height < this.coin.yPos);
     }
+  }, {
+    key: "displayGameOver",
+    value: function displayGameOver() {
+      this.ctx.clearRect(0, 0, 800, 500);
+      this.ctx.fillStyle = "#6b3e6f";
+      this.ctx.fillRect(0, 0, 800, 500);
+      this.ctx.font = "25px Dosis";
+      this.ctx.textBaseline = "top";
+      this.ctx.fillStyle = "#ff9191";
+      this.ctx.drawImage(this.gameOverImage, 212, 120);
+      this.ctx.drawImage(this.koKirbyImage, 377.5, 220);
+      this.ctx.font = "40px Dosis";
+      this.ctx.textBaseline = "top";
+      this.ctx.fillStyle = "#ff9191";
+      this.ctx.fillText("Score: ".concat(this.points), 325, 280);
+      setTimeout(function () {
+        location.reload();
+      }, 3000);
+    }
   }]);
 
   return Game;
@@ -361,34 +385,72 @@ module.exports = Game;
   !*** ./src/game_start.js ***!
   \***************************/
 /*! no static exports found */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
-var gameStart = function gameStart(ctx) {
-  ctx.clearRect(0, 0, 800, 500);
-  ctx.fillStyle = "#6b3e6f";
-  ctx.fillRect(0, 0, 800, 500);
-  var gameTitle = new Image();
-  gameTitle.src = "images/kirby_run.png";
-  var kirbyImage = new Image();
-  kirbyImage.src = "images/kirby_game_start.png";
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-  window.onload = function () {
-    ctx.drawImage(gameTitle, 200, 150);
-    ctx.drawImage(kirbyImage, 400, 250);
-  };
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
-  ctx.font = "25px Dosis";
-  ctx.textBaseline = "top";
-  ctx.fillStyle = "#ff9191";
-  ctx.fillText('Press ENTER to start!', 300, 300);
-  ctx.fillText('Press SPACE to jump!', 300, 330);
-  ctx.font = "25px Dosis";
-  ctx.textBaseline = "top";
-  ctx.fillStyle = "#ff9191";
-  ctx.fillText("Press 's' to turn on/off music!", 270, 360);
-};
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
-module.exports = gameStart;
+var Game = __webpack_require__(/*! ./game */ "./src/game.js");
+
+var GameStart =
+/*#__PURE__*/
+function () {
+  function GameStart(ctx) {
+    _classCallCheck(this, GameStart);
+
+    this.ctx = ctx;
+    this.gamePlaying = false;
+  }
+
+  _createClass(GameStart, [{
+    key: "gameStart",
+    value: function gameStart(ctx) {
+      var _this = this;
+
+      ctx.clearRect(0, 0, 800, 500);
+      ctx.fillStyle = "#6b3e6f";
+      ctx.fillRect(0, 0, 800, 500);
+      var gameTitle = new Image();
+      gameTitle.src = "images/kirby_run.png";
+      var kirbyImage = new Image();
+      kirbyImage.src = "images/kirby_game_start.png";
+
+      window.onload = function () {
+        ctx.drawImage(gameTitle, 195, 120);
+        ctx.drawImage(kirbyImage, 377.5, 230);
+      };
+
+      ctx.font = "25px Dosis";
+      ctx.textBaseline = "top";
+      ctx.fillStyle = "#ff9191";
+      ctx.fillText('Press ENTER to start!', 290, 300);
+      ctx.fillText('Press SPACE to jump!', 290, 330);
+      ctx.font = "25px Dosis";
+      ctx.textBaseline = "top";
+      ctx.fillStyle = "#ff9191";
+      ctx.fillText("Press 's' to turn on/off music!", 260, 360); //Listener to start game
+
+      document.addEventListener("keypress", function (e) {
+        e.preventDefault();
+
+        if (e.keyCode === 13 && !_this.gamePlaying) {
+          _this.gamePlaying = true;
+          var game = new Game(ctx, _this.gamePlaying);
+          ctx.clearRect(0, 0, 800, 500);
+          game.displayFloor();
+          game.start();
+        }
+      });
+    }
+  }]);
+
+  return GameStart;
+}();
+
+module.exports = GameStart;
 
 /***/ }),
 
@@ -507,29 +569,16 @@ module.exports = Kirby;
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-var Game = __webpack_require__(/*! ./game */ "./src/game.js");
-
-var gameStart = __webpack_require__(/*! ./game_start */ "./src/game_start.js");
+var GameStart = __webpack_require__(/*! ./game_start */ "./src/game_start.js");
 
 document.addEventListener("DOMContentLoaded", function () {
   var canvas = document.getElementById("canvas");
-  canvas.width = Game.DIM_X;
-  canvas.height = Game.DIM_Y;
+  canvas.width = 800;
+  canvas.height = 500;
   var ctx = canvas.getContext("2d"); //Start page
 
-  gameStart(ctx); //Listener to start game
-
-  document.addEventListener("keypress", function (e) {
-    e.preventDefault();
-
-    if (e.keyCode === 13) {
-      var game = new Game(ctx);
-      ctx.clearRect(0, 0, 800, 500);
-      game.gamePlaying = true;
-      game.displayFloor();
-      game.start(); // } else if (e.keyCode === 13) {
-    }
-  });
+  gameStart = new GameStart();
+  gameStart.gameStart(ctx);
 });
 
 /***/ }),
