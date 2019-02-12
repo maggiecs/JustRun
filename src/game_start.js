@@ -5,6 +5,10 @@ class GameStart {
   constructor(ctx) {
     this.ctx = ctx;
     this.gamePlaying = false;
+    this.gameTitleImage = new Image();
+    this.gameTitleImage.src = "images/kirby_run.png";
+    this.kirbyImage = new Image();
+    this.kirbyImage.src = "images/kirby_game_start.png";
   }
 
   gameStart(ctx) {
@@ -12,14 +16,12 @@ class GameStart {
     ctx.fillStyle = "#6b3e6f"; 
     ctx.fillRect(0, 0, 800, 500);
 
-    const gameTitle = new Image();
-    gameTitle.src = "images/kirby_run.png";
-    const kirbyImage = new Image();
-    kirbyImage.src = "images/kirby_game_start.png";
-    window.onload = function () {
-      ctx.drawImage(gameTitle, 195, 120);
-      ctx.drawImage(kirbyImage, 377.5, 230);
+    let that = this;
+    window.onload = function() {
+      ctx.drawImage(that.gameTitleImage, 195, 120);
+      ctx.drawImage(that.kirbyImage, 377.5, 230);
     };
+  
 
     ctx.font = "25px Dosis";
     ctx.textBaseline = "top"; 

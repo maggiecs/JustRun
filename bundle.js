@@ -165,6 +165,29 @@ module.exports = Coin;
 
 /***/ }),
 
+/***/ "./src/enemy.js":
+/*!**********************!*\
+  !*** ./src/enemy.js ***!
+  \**********************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Enemy = function Enemy(options) {
+  _classCallCheck(this, Enemy);
+
+  this.image = new Image();
+  this.image.src = options.image.src;
+  this.height = options.height;
+  this.width = options.width;
+  this.speed = 6;
+};
+
+module.exports = Enemy;
+
+/***/ }),
+
 /***/ "./src/game.js":
 /*!*********************!*\
   !*** ./src/game.js ***!
@@ -180,13 +203,11 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 var Kirby = __webpack_require__(/*! ./kirby */ "./src/kirby.js");
 
-var Penguin = __webpack_require__(/*! ./penguin */ "./src/penguin.js");
-
-var Waluigi = __webpack_require__(/*! ./waluigi */ "./src/waluigi.js");
-
 var Score = __webpack_require__(/*! ./score */ "./src/score.js");
 
 var Coin = __webpack_require__(/*! ./coin */ "./src/coin.js");
+
+var Enemy = __webpack_require__(/*! ./enemy */ "./src/enemy.js");
 
 var Game =
 /*#__PURE__*/
@@ -209,6 +230,10 @@ function () {
     this.koKirbyImage.src = "images/ko_kirby.png";
     this.gameOverImage = new Image();
     this.gameOverImage.src = "images/game_over.png";
+    this.waluigiImage = new Image();
+    this.waluigiImage.src = "images/waluigi.png";
+    this.penguinImage = new Image();
+    this.penguinImage.src = "images/penguin.png";
     this.addMusic();
     this.keyListeners();
     this.musicListener();
@@ -233,9 +258,19 @@ function () {
     key: "chooseEnemy",
     value: function chooseEnemy() {
       if (Math.random() < 0.5) {
-        this.chosenEnemy = new Penguin();
+        this.chosenEnemy = new Enemy({
+          image: this.penguinImage,
+          imageSrc: this.penguinImage.src,
+          height: 118,
+          width: 118
+        });
       } else {
-        this.chosenEnemy = new Waluigi();
+        this.chosenEnemy = new Enemy({
+          image: this.waluigiImage,
+          imageSrc: this.waluigiImage.src,
+          height: 123,
+          width: 66
+        });
       }
     }
   }, {
@@ -403,6 +438,10 @@ function () {
 
     this.ctx = ctx;
     this.gamePlaying = false;
+    this.gameTitleImage = new Image();
+    this.gameTitleImage.src = "images/kirby_run.png";
+    this.kirbyImage = new Image();
+    this.kirbyImage.src = "images/kirby_game_start.png";
   }
 
   _createClass(GameStart, [{
@@ -413,14 +452,11 @@ function () {
       ctx.clearRect(0, 0, 800, 500);
       ctx.fillStyle = "#6b3e6f";
       ctx.fillRect(0, 0, 800, 500);
-      var gameTitle = new Image();
-      gameTitle.src = "images/kirby_run.png";
-      var kirbyImage = new Image();
-      kirbyImage.src = "images/kirby_game_start.png";
+      var that = this;
 
       window.onload = function () {
-        ctx.drawImage(gameTitle, 195, 120);
-        ctx.drawImage(kirbyImage, 377.5, 230);
+        ctx.drawImage(that.gameTitleImage, 195, 120);
+        ctx.drawImage(that.kirbyImage, 377.5, 230);
       };
 
       ctx.font = "25px Dosis";
@@ -583,29 +619,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
 /***/ }),
 
-/***/ "./src/penguin.js":
-/*!************************!*\
-  !*** ./src/penguin.js ***!
-  \************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var Penguin = function Penguin() {
-  _classCallCheck(this, Penguin);
-
-  this.image = new Image();
-  this.image.src = "images/penguin.png";
-  this.height = 118;
-  this.width = 118;
-  this.speed = Math.random() * 3 + 4;
-};
-
-module.exports = Penguin;
-
-/***/ }),
-
 /***/ "./src/score.js":
 /*!**********************!*\
   !*** ./src/score.js ***!
@@ -641,29 +654,6 @@ function () {
 }();
 
 module.exports = Score;
-
-/***/ }),
-
-/***/ "./src/waluigi.js":
-/*!************************!*\
-  !*** ./src/waluigi.js ***!
-  \************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var Waluigi = function Waluigi() {
-  _classCallCheck(this, Waluigi);
-
-  this.image = new Image();
-  this.image.src = "images/waluigi.png";
-  this.height = 123;
-  this.width = 66;
-  this.speed = Math.random() * 3 + 6;
-};
-
-module.exports = Waluigi;
 
 /***/ })
 

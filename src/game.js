@@ -1,8 +1,7 @@
 const Kirby = require('./kirby');
-const Penguin = require('./penguin');
-const Waluigi = require('./waluigi');
 const Score = require('./score');
 const Coin = require('./coin');
+const Enemy = require('./enemy');
 
 class Game {
   constructor(ctx, playing) {
@@ -22,6 +21,10 @@ class Game {
     this.koKirbyImage.src = "images/ko_kirby.png";
     this.gameOverImage = new Image();
     this.gameOverImage.src = "images/game_over.png";
+    this.waluigiImage = new Image();
+    this.waluigiImage.src = "images/waluigi.png";
+    this.penguinImage = new Image();
+    this.penguinImage.src = "images/penguin.png";
 
     this.addMusic();
     this.keyListeners();
@@ -44,9 +47,9 @@ class Game {
 
   chooseEnemy() {
     if (Math.random() < 0.5) {
-      this.chosenEnemy = new Penguin();
+      this.chosenEnemy = new Enemy({image: this.penguinImage, imageSrc: this.penguinImage.src, height: 118, width: 118});
     } else {
-      this.chosenEnemy = new Waluigi();
+      this.chosenEnemy = new Enemy({image: this.waluigiImage, imageSrc: this.waluigiImage.src, height: 123, width: 66});
     }
   }
 
@@ -162,8 +165,8 @@ class Game {
     this.ctx.font = "25px Dosis";
     this.ctx.textBaseline = "top";
     this.ctx.fillStyle = "#ff9191";
-    this.ctx.drawImage(this.gameOverImage, 212, 120);
 
+    this.ctx.drawImage(this.gameOverImage, 212, 120);
     this.ctx.drawImage(this.koKirbyImage, 377.5, 220);
 
     this.ctx.font = "40px Dosis";
