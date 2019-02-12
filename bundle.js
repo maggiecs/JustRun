@@ -181,7 +181,7 @@ var Enemy = function Enemy(options) {
   this.image.src = options.image.src;
   this.height = options.height;
   this.width = options.width;
-  this.speed = 6;
+  this.speed = 5;
 };
 
 module.exports = Enemy;
@@ -223,9 +223,10 @@ function () {
     this.points = 0;
     this.chosenEnemy = null;
     this.enemyDimX = Game.DIM_X;
-    this.enemyXStep = null;
+    this.enemyXStep = 6;
     this.gamePlaying = playing;
     this.muteMusic = false;
+    this.extraSpeed = 0;
     this.koKirbyImage = new Image();
     this.koKirbyImage.src = "images/ko_kirby.png";
     this.gameOverImage = new Image();
@@ -280,7 +281,7 @@ function () {
       var cancelAnimationFrame = window.cancelAnimationFrame;
       playRequestId = requestAnimationFrame(this.play.bind(this));
 
-      if (this.gamePlaying === true && this.muteMusic === false) {
+      if (this.gamePlaying && this.muteMusic === false) {
         this.backgroundMusic.play();
       }
 
@@ -297,6 +298,7 @@ function () {
         cancelAnimationFrame(playRequestId);
         this.chooseEnemy();
         this.play();
+        this.enemyXStep += 0.25;
       }
 
       this.addEnemies();
@@ -308,7 +310,15 @@ function () {
         this.coin.stopCoin();
         this.backgroundMusic.pause();
         this.gamePlaying = false;
-        this.displayGameOver();
+
+        if (!this.muteMusic) {
+          this.gameOverMusic.play();
+        }
+
+        var that = this;
+        setTimeout(function () {
+          that.displayGameOver();
+        }, 3000);
       }
     }
   }, {
@@ -321,16 +331,15 @@ function () {
     value: function addEnemies() {
       var enemyDimY = 425 - this.chosenEnemy.height;
       this.enemyDimY = enemyDimY;
-      this.enemyXStep = this.chosenEnemy.speed;
       this.ctx.clearRect(this.enemyDimX, this.enemyDimY, this.chosenEnemy.width + this.enemyXStep, this.chosenEnemy.height);
       this.addKirby();
       this.ctx.drawImage(this.chosenEnemy.image, 0, 0, this.chosenEnemy.width, this.chosenEnemy.height, this.enemyDimX, this.enemyDimY, this.chosenEnemy.width, this.chosenEnemy.height);
-      this.enemyDimX -= this.enemyXStep;
+      this.enemyDimX -= this.enemyXStep; // this.enemyXStep += 0.005;
     }
   }, {
     key: "addCoin",
     value: function addCoin() {
-      if (Math.random() < 0.1 && this.coin.onCanvas === false) {
+      if (Math.random() < 0.01 && this.coin.onCanvas === false) {
         this.coin.generateCoin(this.ctx);
       }
     }
@@ -338,6 +347,7 @@ function () {
     key: "addMusic",
     value: function addMusic() {
       this.backgroundMusic = new Audio("audio/background_music.mp3");
+      this.gameOverMusic = new Audio("audio/game_over_music.mp3");
     }
   }, {
     key: "keyListeners",
@@ -347,7 +357,7 @@ function () {
       this.document.addEventListener("keypress", function (e) {
         e.preventDefault();
 
-        if (e.keyCode === 32) {
+        if (e.keyCode === 32 && _this.gamePlaying) {
           _this.kirby.jump(_this.ctx);
         }
       });
@@ -360,12 +370,18 @@ function () {
       this.document.addEventListener("keypress", function (e) {
         e.preventDefault();
 
-        if (e.keyCode === 115 && _this2.muteMusic === false) {
+        if (e.keyCode === 115 && !_this2.muteMusic) {
+          _this2.gameOverMusic.pause();
+
           _this2.backgroundMusic.pause();
 
           _this2.muteMusic = true;
-        } else if (e.keyCode === 115 && _this2.muteMusic === true) {
-          _this2.backgroundMusic.play();
+        } else if (e.keyCode === 115 && _this2.muteMusic) {
+          if (_this2.gamePlaying) {
+            _this2.backgroundMusic.play();
+          } else {
+            _this2.gameOverMusic.play();
+          }
 
           _this2.muteMusic = false;
         }
@@ -384,6 +400,7 @@ function () {
   }, {
     key: "displayGameOver",
     value: function displayGameOver() {
+      this.gameOverMusic.pause();
       this.ctx.clearRect(0, 0, 800, 500);
       this.ctx.fillStyle = "#6b3e6f";
       this.ctx.fillRect(0, 0, 800, 500);
@@ -533,13 +550,6 @@ function () {
   _createClass(Kirby, [{
     key: "jump",
     value: function jump(ctx) {
-      var requestAnimationFrame = window.requestAnimationFrame;
-      var cancelAnimationFrame = window.cancelAnimationFrame; // let jumpRequestId = requestAnimationFrame(this.jump.bind(this, ctx));
-      // if (this.dead) {
-      //   cancelAnimationFrame(jumpRequestId);
-      // }
-      // cancelAnimationFrame(this.walkRequestId);
-
       ctx.clearRect(this.xPos, this.yPos, this.width, this.height);
 
       if (this.jumping === false) {
@@ -557,19 +567,11 @@ function () {
         this.walk(ctx);
       }
 
-      ctx.drawImage(this.kirbyOne, this.xPos, this.yPos, this.width, this.height); // if (this.jumping === false) {
-      //   cancelAnimationFrame(jumpRequestId);
-      // }
+      ctx.drawImage(this.kirbyOne, this.xPos, this.yPos, this.width, this.height);
     }
   }, {
     key: "walk",
     value: function walk(ctx) {
-      var requestAnimationFrame = window.requestAnimationFrame;
-      var cancelAnimationFrame = window.cancelAnimationFrame; // this.walkRequestId = requestAnimationFrame(this.walk.bind(this, ctx));
-      // if (this.dead) {
-      //   cancelAnimationFrame(this.walkRequestId);
-      // }
-
       var i = Math.floor(this.frame_index) % this.kirbySpriteNum;
       ctx.clearRect(this.xPos, this.yPos, this.width, this.height);
       ctx.drawImage(this.kirbyImage, this.xCorner * i, this.yCorner, this.width, this.height, this.xPos, this.yPos, this.width, this.height);

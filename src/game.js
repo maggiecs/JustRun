@@ -13,9 +13,10 @@ class Game {
     this.points = 0;
     this.chosenEnemy = null;
     this.enemyDimX = Game.DIM_X;
-    this.enemyXStep = null;
+    this.enemyXStep = 6;
     this.gamePlaying = playing;
     this.muteMusic = false;
+    this.extraSpeed = 0;
 
     this.koKirbyImage = new Image();
     this.koKirbyImage.src = "images/ko_kirby.png";
@@ -58,7 +59,7 @@ class Game {
     let cancelAnimationFrame = window.cancelAnimationFrame;
     playRequestId = requestAnimationFrame(this.play.bind(this));
     
-    if (this.gamePlaying === true && this.muteMusic === false) {
+    if (this.gamePlaying && this.muteMusic === false) {
       this.backgroundMusic.play();
     }
 
@@ -75,6 +76,7 @@ class Game {
       cancelAnimationFrame(playRequestId);
       this.chooseEnemy();
       this.play();
+      this.enemyXStep += 0.25;
     }
 
     this.addEnemies();
@@ -86,7 +88,13 @@ class Game {
       this.coin.stopCoin();
       this.backgroundMusic.pause();
       this.gamePlaying = false;
-      this.displayGameOver();
+
+      if (!this.muteMusic) {
+      this.gameOverMusic.play();
+      }
+
+      let that = this;
+      setTimeout(function () { that.displayGameOver(); }, 3000);
     }
   }
 
@@ -97,28 +105,29 @@ class Game {
   addEnemies() {
     const enemyDimY = 425 - this.chosenEnemy.height;
     this.enemyDimY = enemyDimY;
-    this.enemyXStep = this.chosenEnemy.speed;
-
+    
     this.ctx.clearRect(this.enemyDimX, this.enemyDimY, this.chosenEnemy.width + this.enemyXStep, this.chosenEnemy.height);
     this.addKirby();
     this.ctx.drawImage(this.chosenEnemy.image, 0, 0, this.chosenEnemy.width, this.chosenEnemy.height, this.enemyDimX, this.enemyDimY, this.chosenEnemy.width, this.chosenEnemy.height);
     this.enemyDimX -= this.enemyXStep;
+    // this.enemyXStep += 0.005;
   }
 
   addCoin() {
-    if (Math.random() < 0.1 && this.coin.onCanvas === false) {
+    if (Math.random() < 0.01 && this.coin.onCanvas === false) {
       this.coin.generateCoin(this.ctx);
     }
   }
 
   addMusic() {
     this.backgroundMusic = new Audio("audio/background_music.mp3");
+    this.gameOverMusic = new Audio("audio/game_over_music.mp3");
   }
 
   keyListeners() {
     this.document.addEventListener("keypress", (e) => {
       e.preventDefault();
-      if (e.keyCode === 32) {
+      if (e.keyCode === 32 && this.gamePlaying) {
         this.kirby.jump(this.ctx);
       } 
     });
@@ -127,11 +136,16 @@ class Game {
   musicListener() {
     this.document.addEventListener("keypress", (e) => {
       e.preventDefault();
-      if (e.keyCode === 115 && this.muteMusic === false) {
+      if (e.keyCode === 115 && !this.muteMusic) {
+        this.gameOverMusic.pause();
         this.backgroundMusic.pause();
         this.muteMusic = true;
-      } else if (e.keyCode === 115 && this.muteMusic === true) {
+      } else if (e.keyCode === 115 && this.muteMusic) {
+        if (this.gamePlaying) {
         this.backgroundMusic.play();
+        } else {
+          this.gameOverMusic.play();
+        }
         this.muteMusic = false;
       }
     });
@@ -158,6 +172,8 @@ class Game {
 
 
   displayGameOver() {
+    this.gameOverMusic.pause();
+
     this.ctx.clearRect(0, 0, 800, 500);
     this.ctx.fillStyle = "#6b3e6f";
     this.ctx.fillRect(0, 0, 800, 500);
