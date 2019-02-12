@@ -9,18 +9,49 @@ body {
   justify-content: center;
   align-items: center;
   background-color: #985a7d;
+  margin: 0 auto; 
 }
+
 #canvas {
   border: 5px solid #000000;
   background-image: url(../images/canvas_background.jpg);
   background-size: 100%;
-}
-.footer-links {
-  display: flex;
-  justify-content: space-around;
+  margin: 30px;
 }
 
-.footer-links > li {
+.header {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background-color: #6b3e6f;
+  border-bottom: 3px solid #000000;
+}
+
+.header img {
+  height: 50px;
+}
+
+.email-link {
+  font-size: 30px;
+  width: 145.31px;
+  height: 58px;
+  text-align: center;
+  vertical-align: middle;
+  padding: 0px;
+  
+}
+
+.email-link a i {
+  line-height: 58px;
+}
+.header-links {
+  display: flex;
+  justify-content: center;
+  padding: 0px;
+}
+
+.header-links > li {
   list-style: none;
   font-size: 30px;
   padding: 10px;
@@ -29,3 +60,8 @@ body {
   font-family: 'Dosis';
 }
 
+.footer p {
+  margin-top: 30px;
+  font-family: Dosis;
+  font-size: 18px;
+}
