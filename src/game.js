@@ -114,7 +114,7 @@ class Game {
   }
 
   addCoin() {
-    if (Math.random() < 0.01 && this.coin.onCanvas === false) {
+    if (Math.random() < 0.1 && this.coin.onCanvas === false) {
       this.coin.generateCoin(this.ctx);
     }
   }
