@@ -6,7 +6,6 @@ a {
 body {
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
   background-color: #985a7d;
   margin: 0 auto; 
@@ -17,9 +16,8 @@ body {
   border: 5px solid #000000;
   background-image: url(../images/canvas_background.jpg);
   background-size: 100%;
-  margin: 30px;
+  margin: 50px;
   z-index: 0; 
-  /* position: absolute;  */
 }
 
 .header {
@@ -31,6 +29,8 @@ body {
   border-bottom: 3px solid #000000;
   overflow: auto;
   padding: 20px;
+  top: 0px;
+  z-index: 0; 
 }
 
 .header img {
