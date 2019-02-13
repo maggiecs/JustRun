@@ -447,6 +447,11 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 var Game = __webpack_require__(/*! ./game */ "./src/game.js");
 
+var closeGameStartDisplay = function closeGameStartDisplay() {
+  var gameStartDisplay = document.getElementsByClassName('game-start')[0];
+  gameStartDisplay.className = "game-start off";
+};
+
 var GameStart =
 /*#__PURE__*/
 function () {
@@ -463,36 +468,30 @@ function () {
 
   _createClass(GameStart, [{
     key: "gameStart",
-    value: function gameStart(ctx) {
+    value: function gameStart() {
       var _this = this;
 
-      ctx.clearRect(0, 0, 800, 500);
-      ctx.fillStyle = "#6b3e6f";
-      ctx.fillRect(0, 0, 800, 500);
+      this.ctx.clearRect(0, 0, 800, 500);
+      this.ctx.fillStyle = "#6b3e6f";
+      this.ctx.fillRect(0, 0, 800, 500);
       var that = this;
+      that.ctx.drawImage(that.gameTitleImage, 195, 120);
 
       window.onload = function () {
-        ctx.drawImage(that.gameTitleImage, 195, 120);
-        ctx.drawImage(that.kirbyImage, 377.5, 230);
-      };
+        that.ctx.drawImage(that.kirbyImage, 377.5, 230);
+      }; //Listener to start game
 
-      ctx.font = "25px Dosis";
-      ctx.textBaseline = "top";
-      ctx.fillStyle = "#ff9191";
-      ctx.fillText('Press ENTER to start!', 290, 300);
-      ctx.fillText('Press SPACE to jump!', 290, 330);
-      ctx.font = "25px Dosis";
-      ctx.textBaseline = "top";
-      ctx.fillStyle = "#ff9191";
-      ctx.fillText("Press 's' to turn on/off music!", 260, 360); //Listener to start game
 
       document.addEventListener("keypress", function (e) {
         e.preventDefault();
 
         if (e.keyCode === 13 && !_this.gamePlaying) {
           _this.gamePlaying = true;
-          var game = new Game(ctx, _this.gamePlaying);
-          ctx.clearRect(0, 0, 800, 500);
+          var game = new Game(_this.ctx, _this.gamePlaying);
+          closeGameStartDisplay();
+
+          _this.ctx.clearRect(0, 0, 800, 500);
+
           game.displayFloor();
           game.start();
         }
@@ -609,14 +608,14 @@ module.exports = Kirby;
 
 var GameStart = __webpack_require__(/*! ./game_start */ "./src/game_start.js");
 
-document.addEventListener("DOMContentLoaded", function () {
+window.addEventListener("DOMContentLoaded", function () {
   var canvas = document.getElementById("canvas");
   canvas.width = 800;
   canvas.height = 500;
   var ctx = canvas.getContext("2d"); //Start page
 
-  gameStart = new GameStart();
-  gameStart.gameStart(ctx);
+  gameStart = new GameStart(ctx);
+  gameStart.gameStart();
 });
 
 /***/ }),
