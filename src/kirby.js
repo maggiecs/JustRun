@@ -20,8 +20,6 @@ class Kirby {
     this.jumping = false;
     this.yVelocity = 0;
 
-    // this.walkRequestId = null;
-
     this.dead = false;
   }
  
@@ -31,7 +29,7 @@ class Kirby {
     ctx.clearRect(this.xPos, this.yPos, this.width, this.height);
 
     if (this.jumping === false) {
-      this.yVelocity -= 20;
+      this.yVelocity -= 18;
       this.jumping = true;
     }
 

@@ -541,8 +541,7 @@ function () {
     this.kirbyOne = new Image();
     this.kirbyOne.src = "images/kirby-1.png";
     this.jumping = false;
-    this.yVelocity = 0; // this.walkRequestId = null;
-
+    this.yVelocity = 0;
     this.dead = false;
   }
 
@@ -552,7 +551,7 @@ function () {
       ctx.clearRect(this.xPos, this.yPos, this.width, this.height);
 
       if (this.jumping === false) {
-        this.yVelocity -= 20;
+        this.yVelocity -= 18;
         this.jumping = true;
       }
 
