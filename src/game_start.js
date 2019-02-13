@@ -22,8 +22,8 @@ class GameStart {
     this.ctx.fillRect(0, 0, 800, 500);
 
     let that = this;
-    that.ctx.drawImage(that.gameTitleImage, 195, 120);
     window.onload = function() {
+      that.ctx.drawImage(that.gameTitleImage, 195, 120);
       that.ctx.drawImage(that.kirbyImage, 377.5, 230);
     };
   
