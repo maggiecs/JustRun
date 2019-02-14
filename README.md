@@ -26,7 +26,7 @@ The following are the main scripts that will be implemented:
 
 `game.js`: this script will handle the logic for the game and rendering the the enemies
 
-`player.js `: this script will handle the logic for rendering the player
+`kirby.js `: this script will handle the logic for rendering the player
 
 `enemy.js`: this script will handle the state of all of the enemies
 
