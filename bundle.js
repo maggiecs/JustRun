@@ -525,7 +525,7 @@ function () {
   function Kirby() {
     _classCallCheck(this, Kirby);
 
-    //variables for kirby sprite
+    //variables for player sprite
     this.kirbyImage = new Image();
     this.kirbyImage.src = "images/kirby_sprite.png";
     this.xCorner = 45;
@@ -536,10 +536,10 @@ function () {
     this.yPos = 380;
     this.frame_index = 0;
     this.frame_rate = 0.1;
-    this.kirbySpriteNum = 6; //variables for kirby jump
+    this.kirbySpriteNum = 6; //variables for player jump
 
     this.kirbyOne = new Image();
-    this.kirbyOne.src = "images/kirby-1.png";
+    this.kirbyOne.src = "images/kirby-jump.png";
     this.jumping = false;
     this.yVelocity = 0;
     this.dead = false;

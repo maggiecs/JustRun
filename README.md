@@ -1,42 +1,42 @@
-# Kirby-Run
+# Just Run
 
 ### Background
 
-Kirby Run is an infinite run game inspired by Google's T-Rex Run!. The goal of the game is to last as long as possible, avoiding the obstacles that appears.
+Just Run is an infinite run game inspired by Google's T-Rex Run! The goal of the game is to last as long as possible, avoiding the obstacles that appears.
 
 ### Functionality & MVP 
 
-With Kirby Run, users will be able to:
+With Just Run, users will be able to:
 
-- [ ] Choose a difficulty level
-- [ ] Enter the game once difficulty level is clicked on
 - [ ] Use the spacebar to jump
+- [ ] User enter to start the game
+- [ ] Turn the music on/off using the "s" key
 
 In addition, this project will include:
 
-- [ ] An instruction modal describing the rules of the game
 - [ ] A production README
 
 ### Architecture and Technologies
 
 The project will be implemented with the following technologies:
+
 -`Javascript` for game logic, webpack to bundle Javascript files, and HTML5 Canvas to draw the graphics.
 
 The following are the main scripts that will be implemented:
 
-`board.js`: this script will handle the logic for rendering the background/board
-
-`obstacle.js`: this script will handle the logic for rendering the obstacle
-
-`points.js `: this script will handle the logic for the player's points
+`game.js`: this script will handle the logic for the game and rendering the the enemies
 
 `player.js `: this script will handle the logic for rendering the player
 
-`item.js`: this script will handle the logic for rendering extra point items
+`enemy.js`: this script will handle the state of all of the enemies
+
+`coin.js`: this script will handle the logic for rendering the coin
+
+`score.js `: this script will handle the logic for rendering the player's score
 
 ### Wireframes
 
-The app will consist of a single screen with the game board and navigation bar. The navigation bar will contain nav links to the Github repository, my LinkedIn, and the instruction modal. The title will be displayed below the navigation bar and above the game board.
+The app will consist of a single screen with the game board and navigation bar. The navigation bar will contain nav links to the Github repository, my LinkedIn, and my portfolio site. The title will be on the navigation bar and on the game board.
 
 ![WireframeImage](images/wireframe.png)
 
@@ -48,14 +48,20 @@ The app will consist of a single screen with the game board and navigation bar. 
 - Complete board design.
 
 **Day 2**: 
-- Complete player script and rendering
-- Complete obstacle script and rendering
+- Complete player script, where the player jumps when the space bar is pressed.
+- Complete enemy script, where the enemy enters board after the previous enemy leaves.
 
 **Day 3**: 
-- Complete points script and rendering
-- Complete extra point items script and rendering
+- Complete coin item script, where items disappear on collision.
+- Complete score script, where the score updates for every enemy passed and coin collected.
 
-### Bonus features
+### Future Features
 - [ ] Add options for player
-- [ ] Add multi-player
+- [ ] Add multi-player feature
 - [ ] Connect to a backend database to store high scores
+
+### Legal
+
+The artwork and music used in this project are for educational purposes only. The artwork and music are property of Nintendo.
+
+
