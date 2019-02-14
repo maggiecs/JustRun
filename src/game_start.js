@@ -11,7 +11,7 @@ class GameStart {
     this.ctx = ctx;
     this.gamePlaying = false;
     this.gameTitleImage = new Image();
-    this.gameTitleImage.src = "images/kirby_run.png";
+    this.gameTitleImage.src = "images/just_run.png";
     this.kirbyImage = new Image();
     this.kirbyImage.src = "images/kirby_game_start.png";
   }

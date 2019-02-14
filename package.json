@@ -1,29 +1,26 @@
 {
-  "name": "Kirby_Run",
+  "name": "JustRun",
   "version": "1.0.0",
   "description": "### Background",
-  "main": "main.js",
+  "main": "bundle.js",
   "dependencies": {
-    "@babel/core": "^7.2.2",
-    "@babel/preset-env": "^7.3.1",
     "babel-loader": "^8.0.5",
-    "webpack": "^4.29.2",
-    "webpack-cli": "^3.2.3"
+    "webpack-cli": "^3.2.3",
+    "webpack": "^4.29.2"
   },
   "devDependencies": {},
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "webpack": "webpack --mode=development --watch"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/maggiecs/Kirby-Run.git"
+    "url": "git+https://github.com/maggiecs/JustRun.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/maggiecs/Kirby-Run/issues"
+    "url": "https://github.com/maggiecs/JustRun/issues"
   },
-  "homepage": "https://github.com/maggiecs/Kirby-Run#readme"
+  "homepage": "https://github.com/maggiecs/JustRun#readme"
 }

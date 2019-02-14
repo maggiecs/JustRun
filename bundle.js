@@ -339,7 +339,7 @@ function () {
   }, {
     key: "addCoin",
     value: function addCoin() {
-      if (Math.random() < 0.01 && this.coin.onCanvas === false) {
+      if (Math.random() < 0.1 && this.coin.onCanvas === false) {
         this.coin.generateCoin(this.ctx);
       }
     }
@@ -461,7 +461,7 @@ function () {
     this.ctx = ctx;
     this.gamePlaying = false;
     this.gameTitleImage = new Image();
-    this.gameTitleImage.src = "images/kirby_run.png";
+    this.gameTitleImage.src = "images/just_run.png";
     this.kirbyImage = new Image();
     this.kirbyImage.src = "images/kirby_game_start.png";
   }
@@ -475,9 +475,9 @@ function () {
       this.ctx.fillStyle = "#6b3e6f";
       this.ctx.fillRect(0, 0, 800, 500);
       var that = this;
-      that.ctx.drawImage(that.gameTitleImage, 195, 120);
 
       window.onload = function () {
+        that.ctx.drawImage(that.gameTitleImage, 195, 120);
         that.ctx.drawImage(that.kirbyImage, 377.5, 230);
       }; //Listener to start game
 
