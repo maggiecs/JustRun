@@ -470,6 +470,11 @@ var closeGameStartDisplay = function closeGameStartDisplay() {
   gameStartDisplay.className = "game-start off";
 };
 
+var openGameStartDisplay = function openGameStartDisplay() {
+  var gameStartDisplay = document.getElementsByClassName('game-start off')[0];
+  gameStartDisplay.className = "game-start";
+};
+
 var GameStart =
 /*#__PURE__*/
 function () {
@@ -495,6 +500,7 @@ function () {
       var that = this;
 
       window.onload = function () {
+        openGameStartDisplay();
         that.ctx.drawImage(that.gameTitleImage, 195, 120);
         that.ctx.drawImage(that.kirbyImage, 377.5, 230);
       }; //Listener to start game

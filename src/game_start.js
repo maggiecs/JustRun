@@ -5,6 +5,11 @@ const closeGameStartDisplay = () => {
   gameStartDisplay.className = "game-start off";
 };
 
+const openGameStartDisplay = () => {
+  const gameStartDisplay = document.getElementsByClassName('game-start off')[0];
+  gameStartDisplay.className = "game-start";
+};
+
 class GameStart {
 
   constructor(ctx) {
@@ -23,6 +28,7 @@ class GameStart {
 
     let that = this;
     window.onload = function() {
+      openGameStartDisplay();
       that.ctx.drawImage(that.gameTitleImage, 195, 120);
       that.ctx.drawImage(that.kirbyImage, 377.5, 230);
     };
