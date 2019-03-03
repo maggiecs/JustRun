@@ -1,61 +1,51 @@
 # Just Run
 
-### Background
+## Background
+[Live Link](http://maggiechen.me/JustRun/)
 
-Just Run is an infinite run game inspired by Google's T-Rex Run! The goal of the game is to last as long as possible, avoiding the obstacles that appears.
+![Game Image](./images/just_run_game_image.png)
 
-### Functionality & MVP 
 
-With Just Run, users will be able to:
+Just Run is an infinite run game inspired by Google's T-Rex Run! The goal of the game is to last as long as possible, avoiding the enemies that appear.
 
-- [ ] Use the spacebar to jump
-- [ ] User enter to start the game
-- [ ] Turn the music on/off using the "s" key
+## Instructions
+Press ENTER to start and SPACE to jump and avoid enemies and collect coins.
 
-In addition, this project will include:
+## Technologies
+- Javascript
+- HTML5 Canvas
 
-- [ ] A production README
 
-### Architecture and Technologies
+## Features and Implementation
 
-The project will be implemented with the following technologies:
+All features were implemented using only native JavaScript and HTML5 Canvas.
 
--`Javascript` for game logic, webpack to bundle Javascript files, and HTML5 Canvas to draw the graphics.
 
-The following are the main scripts that will be implemented:
+### Collision Detection
 
-`game.js`: this script will handle the logic for the game and rendering the the enemies
+Collision occurs when the two objects intersect. In this game, objects were represented as rectangles to encapsulate their entire areas. Collision detection was used to detect if the player collided with an enemy and if the player collided with a coin.
 
-`kirby.js `: this script will handle the logic for rendering the player
+```JavaScript
+gameOver() {
+    return !(
+      this.kirby.xPos > this.enemyDimX + this.chosenEnemy.width - Game.ENEMY_OFFSET.xOffset ||
+      this.kirby.xPos + this.kirby.width < this.enemyDimX + Game.ENEMY_OFFSET.xOffset ||
+      this.kirby.yPos > this.enemyDimY + this.chosenEnemy.height - Game.ENEMY_OFFSET.yOffset ||
+      this.kirby.yPos + this.kirby.height < this.enemyDimY + Game.ENEMY_OFFSET.yOffset
+    );
+  }
 
-`enemy.js`: this script will handle the state of all of the enemies
+coinCollision() {
+    return !(
+      this.kirby.xPos > this.coin.xPos + this.coin.width ||
+      this.kirby.xPos + this.kirby.width < this.coin.xPos ||
+      this.kirby.yPos > this.coin.yPos + this.coin.height ||
+      this.kirby.yPos + this.kirby.height < this.coin.yPos
+    );
+  }
+```
 
-`coin.js`: this script will handle the logic for rendering the coin
-
-`score.js `: this script will handle the logic for rendering the player's score
-
-### Wireframes
-
-The app will consist of a single screen with the game board and navigation bar. The navigation bar will contain nav links to the Github repository, my LinkedIn, and my portfolio site. The title will be on the navigation bar and on the game board.
-
-![WireframeImage](images/wireframe.png)
-
-### Implementation Timeline
-
-**Day 1**: 
-- Setup all the files needed for webpack to start running.
-- Write a basic entry file.
-- Complete board design.
-
-**Day 2**: 
-- Complete player script, where the player jumps when the space bar is pressed.
-- Complete enemy script, where the enemy enters board after the previous enemy leaves.
-
-**Day 3**: 
-- Complete coin item script, where items disappear on collision.
-- Complete score script, where the score updates for every enemy passed and coin collected.
-
-### Future Features
+## Future Features
 - [ ] Add options for player
 - [ ] Add multi-player feature
 - [ ] Connect to a backend database to store high scores
