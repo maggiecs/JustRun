@@ -22,7 +22,7 @@ class Coin {
     const requestAnimationFrame = window.requestAnimationFrame;
     const cancelAnimationFrame = window.cancelAnimationFrame;
     
-    coinRequestId = requestAnimationFrame(this.generateCoin.bind(this, ctx));
+    let coinRequestId = requestAnimationFrame(this.generateCoin.bind(this, ctx));
 
     if (this.xPos < -68 || this.stop === true) {
       this.onCanvas = false;
@@ -53,4 +53,4 @@ class Coin {
 
 }
 
-module.exports = Coin;
+export default Coin;

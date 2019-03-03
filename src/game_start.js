@@ -1,4 +1,4 @@
-const Game = require("./game");
+import Game from './game';
 
 const closeGameStartDisplay = () => {
   const gameStartDisplay = document.getElementsByClassName('game-start')[0];
@@ -44,4 +44,4 @@ class GameStart {
 }
 
 
-module.exports = GameStart;
+export default GameStart;

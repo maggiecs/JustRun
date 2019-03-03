@@ -1,7 +1,7 @@
-const Kirby = require('./kirby');
-const Score = require('./score');
-const Coin = require('./coin');
-const Enemy = require('./enemy');
+import Kirby from './kirby';
+import Score from './score';
+import Coin from './coin';
+import Enemy from './enemy';
 
 class Game {
   constructor(ctx, playing) {
@@ -57,14 +57,14 @@ class Game {
   play() {
     let requestAnimationFrame = window.requestAnimationFrame;
     let cancelAnimationFrame = window.cancelAnimationFrame;
-    playRequestId = requestAnimationFrame(this.play.bind(this));
+    let playRequestId = requestAnimationFrame(this.play.bind(this));
     
     if (this.gamePlaying && this.muteMusic === false) {
       this.backgroundMusic.play();
     }
 
     if (this.coinCollision()) {
-      this.points += 5;
+      this.points += 20;
       this.coin.hasCollide = true;
       this.score.drawScore(this.ctx, this.points);
     }
@@ -110,7 +110,6 @@ class Game {
     this.addKirby();
     this.ctx.drawImage(this.chosenEnemy.image, 0, 0, this.chosenEnemy.width, this.chosenEnemy.height, this.enemyDimX, this.enemyDimY, this.chosenEnemy.width, this.chosenEnemy.height);
     this.enemyDimX -= this.enemyXStep;
-    // this.enemyXStep += 0.005;
   }
 
   addCoin() {
@@ -173,7 +172,13 @@ class Game {
 
   displayGameOver() {
     this.gameOverMusic.pause();
+    let localhighScore = parseInt(localStorage.getItem("highScore"));
 
+    if (!localhighScore || localhighScore < this.points) {
+      localStorage.setItem("highScore", this.points);
+      localhighScore = parseInt(localStorage.getItem("highScore"));
+    }
+    
     this.ctx.clearRect(0, 0, 800, 500);
     this.ctx.fillStyle = "#6b3e6f";
     this.ctx.fillRect(0, 0, 800, 500);
@@ -188,7 +193,8 @@ class Game {
     this.ctx.font = "40px Dosis";
     this.ctx.textBaseline = "top";
     this.ctx.fillStyle = "#ff9191";
-    this.ctx.fillText(`Score: ${this.points}`, 325, 280);
+    this.ctx.fillText(`Score: ${this.points}`, 325, 280)
+    this.ctx.fillText(`Current High Score: ${localhighScore}`, 230, 330);
 
     setTimeout(function () { location.reload(); }, 3000);
   }
@@ -198,8 +204,8 @@ class Game {
 Game.DIM_X = 800;
 Game.DIM_Y = 500;
 Game.ENEMY_OFFSET = {
-  xOffset: 10,
-  yOffset: 5,
+  xOffset: 20,
+  yOffset: 10,
 };
 
-module.exports = Game;
+export default Game;

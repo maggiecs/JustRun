@@ -90,9 +90,11 @@
 /*!*********************!*\
   !*** ./src/coin.js ***!
   \*********************/
-/*! no static exports found */
-/***/ (function(module, exports) {
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
+__webpack_require__.r(__webpack_exports__);
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -127,7 +129,7 @@ function () {
     value: function generateCoin(ctx) {
       var requestAnimationFrame = window.requestAnimationFrame;
       var cancelAnimationFrame = window.cancelAnimationFrame;
-      coinRequestId = requestAnimationFrame(this.generateCoin.bind(this, ctx));
+      var coinRequestId = requestAnimationFrame(this.generateCoin.bind(this, ctx));
 
       if (this.xPos < -68 || this.stop === true) {
         this.onCanvas = false;
@@ -161,7 +163,7 @@ function () {
   return Coin;
 }();
 
-module.exports = Coin;
+/* harmony default export */ __webpack_exports__["default"] = (Coin);
 
 /***/ }),
 
@@ -169,9 +171,11 @@ module.exports = Coin;
 /*!**********************!*\
   !*** ./src/enemy.js ***!
   \**********************/
-/*! no static exports found */
-/***/ (function(module, exports) {
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
+__webpack_require__.r(__webpack_exports__);
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var Enemy = function Enemy(options) {
@@ -184,7 +188,7 @@ var Enemy = function Enemy(options) {
   this.speed = 5;
 };
 
-module.exports = Enemy;
+/* harmony default export */ __webpack_exports__["default"] = (Enemy);
 
 /***/ }),
 
@@ -192,22 +196,25 @@ module.exports = Enemy;
 /*!*********************!*\
   !*** ./src/game.js ***!
   \*********************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _kirby__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./kirby */ "./src/kirby.js");
+/* harmony import */ var _score__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./score */ "./src/score.js");
+/* harmony import */ var _coin__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./coin */ "./src/coin.js");
+/* harmony import */ var _enemy__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./enemy */ "./src/enemy.js");
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
-var Kirby = __webpack_require__(/*! ./kirby */ "./src/kirby.js");
 
-var Score = __webpack_require__(/*! ./score */ "./src/score.js");
 
-var Coin = __webpack_require__(/*! ./coin */ "./src/coin.js");
 
-var Enemy = __webpack_require__(/*! ./enemy */ "./src/enemy.js");
+
 
 var Game =
 /*#__PURE__*/
@@ -217,9 +224,9 @@ function () {
 
     this.document = document;
     this.ctx = ctx;
-    this.kirby = new Kirby();
-    this.score = new Score();
-    this.coin = new Coin();
+    this.kirby = new _kirby__WEBPACK_IMPORTED_MODULE_0__["default"]();
+    this.score = new _score__WEBPACK_IMPORTED_MODULE_1__["default"]();
+    this.coin = new _coin__WEBPACK_IMPORTED_MODULE_2__["default"]();
     this.points = 0;
     this.chosenEnemy = null;
     this.enemyDimX = Game.DIM_X;
@@ -259,14 +266,14 @@ function () {
     key: "chooseEnemy",
     value: function chooseEnemy() {
       if (Math.random() < 0.5) {
-        this.chosenEnemy = new Enemy({
+        this.chosenEnemy = new _enemy__WEBPACK_IMPORTED_MODULE_3__["default"]({
           image: this.penguinImage,
           imageSrc: this.penguinImage.src,
           height: 118,
           width: 118
         });
       } else {
-        this.chosenEnemy = new Enemy({
+        this.chosenEnemy = new _enemy__WEBPACK_IMPORTED_MODULE_3__["default"]({
           image: this.waluigiImage,
           imageSrc: this.waluigiImage.src,
           height: 123,
@@ -279,14 +286,14 @@ function () {
     value: function play() {
       var requestAnimationFrame = window.requestAnimationFrame;
       var cancelAnimationFrame = window.cancelAnimationFrame;
-      playRequestId = requestAnimationFrame(this.play.bind(this));
+      var playRequestId = requestAnimationFrame(this.play.bind(this));
 
       if (this.gamePlaying && this.muteMusic === false) {
         this.backgroundMusic.play();
       }
 
       if (this.coinCollision()) {
-        this.points += 5;
+        this.points += 20;
         this.coin.hasCollide = true;
         this.score.drawScore(this.ctx, this.points);
       }
@@ -334,7 +341,7 @@ function () {
       this.ctx.clearRect(this.enemyDimX, this.enemyDimY, this.chosenEnemy.width + this.enemyXStep, this.chosenEnemy.height);
       this.addKirby();
       this.ctx.drawImage(this.chosenEnemy.image, 0, 0, this.chosenEnemy.width, this.chosenEnemy.height, this.enemyDimX, this.enemyDimY, this.chosenEnemy.width, this.chosenEnemy.height);
-      this.enemyDimX -= this.enemyXStep; // this.enemyXStep += 0.005;
+      this.enemyDimX -= this.enemyXStep;
     }
   }, {
     key: "addCoin",
@@ -401,6 +408,13 @@ function () {
     key: "displayGameOver",
     value: function displayGameOver() {
       this.gameOverMusic.pause();
+      var localhighScore = parseInt(localStorage.getItem("highScore"));
+
+      if (!localhighScore || localhighScore < this.points) {
+        localStorage.setItem("highScore", this.points);
+        localhighScore = parseInt(localStorage.getItem("highScore"));
+      }
+
       this.ctx.clearRect(0, 0, 800, 500);
       this.ctx.fillStyle = "#6b3e6f";
       this.ctx.fillRect(0, 0, 800, 500);
@@ -413,6 +427,7 @@ function () {
       this.ctx.textBaseline = "top";
       this.ctx.fillStyle = "#ff9191";
       this.ctx.fillText("Score: ".concat(this.points), 325, 280);
+      this.ctx.fillText("Current High Score: ".concat(localhighScore), 230, 330);
       setTimeout(function () {
         location.reload();
       }, 3000);
@@ -425,10 +440,10 @@ function () {
 Game.DIM_X = 800;
 Game.DIM_Y = 500;
 Game.ENEMY_OFFSET = {
-  xOffset: 10,
-  yOffset: 5
+  xOffset: 20,
+  yOffset: 10
 };
-module.exports = Game;
+/* harmony default export */ __webpack_exports__["default"] = (Game);
 
 /***/ }),
 
@@ -436,16 +451,19 @@ module.exports = Game;
 /*!***************************!*\
   !*** ./src/game_start.js ***!
   \***************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _game__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./game */ "./src/game.js");
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
-var Game = __webpack_require__(/*! ./game */ "./src/game.js");
+
 
 var closeGameStartDisplay = function closeGameStartDisplay() {
   var gameStartDisplay = document.getElementsByClassName('game-start')[0];
@@ -487,7 +505,7 @@ function () {
 
         if (e.keyCode === 13 && !_this.gamePlaying) {
           _this.gamePlaying = true;
-          var game = new Game(_this.ctx, _this.gamePlaying);
+          var game = new _game__WEBPACK_IMPORTED_MODULE_0__["default"](_this.ctx, _this.gamePlaying);
           closeGameStartDisplay();
 
           _this.ctx.clearRect(0, 0, 800, 500);
@@ -502,7 +520,7 @@ function () {
   return GameStart;
 }();
 
-module.exports = GameStart;
+/* harmony default export */ __webpack_exports__["default"] = (GameStart);
 
 /***/ }),
 
@@ -510,9 +528,11 @@ module.exports = GameStart;
 /*!**********************!*\
   !*** ./src/kirby.js ***!
   \**********************/
-/*! no static exports found */
-/***/ (function(module, exports) {
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
+__webpack_require__.r(__webpack_exports__);
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -555,7 +575,7 @@ function () {
         this.jumping = true;
       }
 
-      this.yVelocity += 0.8;
+      this.yVelocity += 0.95;
       this.yPos += this.yVelocity;
 
       if (this.yPos > 380) {
@@ -594,7 +614,7 @@ function () {
   return Kirby;
 }();
 
-module.exports = Kirby;
+/* harmony default export */ __webpack_exports__["default"] = (Kirby);
 
 /***/ }),
 
@@ -602,10 +622,12 @@ module.exports = Kirby;
 /*!*********************!*\
   !*** ./src/main.js ***!
   \*********************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-var GameStart = __webpack_require__(/*! ./game_start */ "./src/game_start.js");
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _game_start__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./game_start */ "./src/game_start.js");
 
 window.addEventListener("DOMContentLoaded", function () {
   var canvas = document.getElementById("canvas");
@@ -613,7 +635,7 @@ window.addEventListener("DOMContentLoaded", function () {
   canvas.height = 500;
   var ctx = canvas.getContext("2d"); //Start page
 
-  gameStart = new GameStart(ctx);
+  var gameStart = new _game_start__WEBPACK_IMPORTED_MODULE_0__["default"](ctx);
   gameStart.gameStart();
 });
 
@@ -623,9 +645,11 @@ window.addEventListener("DOMContentLoaded", function () {
 /*!**********************!*\
   !*** ./src/score.js ***!
   \**********************/
-/*! no static exports found */
-/***/ (function(module, exports) {
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
+__webpack_require__.r(__webpack_exports__);
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -653,7 +677,7 @@ function () {
   return Score;
 }();
 
-module.exports = Score;
+/* harmony default export */ __webpack_exports__["default"] = (Score);
 
 /***/ })
 

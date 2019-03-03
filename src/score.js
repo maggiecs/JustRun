@@ -11,4 +11,4 @@ class Score {
   }
 }
 
-module.exports = Score;
+export default Score;

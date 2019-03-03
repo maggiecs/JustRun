@@ -9,4 +9,4 @@ class Enemy {
 
 }
 
-module.exports = Enemy;
+export default Enemy;

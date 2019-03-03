@@ -33,7 +33,7 @@ class Kirby {
       this.jumping = true;
     }
 
-    this.yVelocity += 0.8;
+    this.yVelocity += 0.95;
     this.yPos += this.yVelocity;
 
     if (this.yPos > 380) {
@@ -68,4 +68,4 @@ class Kirby {
   }
 }
 
-module.exports = Kirby;
+export default Kirby;
