@@ -9,7 +9,7 @@
 Just Run is an infinite run game inspired by Google's T-Rex Run! The goal of the game is to last as long as possible, avoiding the enemies that appear.
 
 ## Instructions
-Press ENTER to start and SPACE to jump and avoid enemies and collect coins.
+Press ENTER to start and SPACE to jump to avoid enemies and collect coins.
 
 ## Technologies
 - Javascript
