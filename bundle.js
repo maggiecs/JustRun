@@ -409,6 +409,7 @@ function () {
     value: function displayGameOver() {
       this.gameOverMusic.pause();
       var localhighScore = parseInt(localStorage.getItem("highScore"));
+      document.addEventListener("keypress", function (e) {});
 
       if (!localhighScore || localhighScore < this.points) {
         localStorage.setItem("highScore", this.points);

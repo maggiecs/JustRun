@@ -173,6 +173,8 @@ class Game {
   displayGameOver() {
     this.gameOverMusic.pause();
     let localhighScore = parseInt(localStorage.getItem("highScore"));
+    document.addEventListener("keypress", (e) => {
+    });
 
     if (!localhighScore || localhighScore < this.points) {
       localStorage.setItem("highScore", this.points);
